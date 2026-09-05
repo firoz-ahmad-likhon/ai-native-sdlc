@@ -11,13 +11,13 @@ spring_boot/
   pom.xml
   Dockerfile
   docker-compose.yml
-  src/main/java/com/example/demo/
-    DemoApplication.java
+  src/main/java/com/aisdlc/springboot/
+    SpringBootSampleApplication.java
     controller/HelloController.java
     controller/SumController.java
     dto/SumResponse.java
     exception/GlobalExceptionHandler.java
-  src/test/java/com/example/demo/
+  src/test/java/com/aisdlc/springboot/
     HelloControllerTest.java
     SumControllerTest.java
 ```
@@ -32,7 +32,7 @@ spring_boot/
 
 | Class | Responsibility |
 |---|---|
-| `DemoApplication` | Standard `@SpringBootApplication` entry point. |
+| `SpringBootSampleApplication` | Standard `@SpringBootApplication` entry point. |
 | `HelloController` | `@RestController`, `GET /hello` → `{"message": "Hello, World!"}`. |
 | `SumController` | `@RestController`, `GET /sum` with `@RequestParam int a, @RequestParam int b` → `SumResponse(a + b)`. |
 | `SumResponse` | Simple record/POJO: `{ result: int }`. |
