@@ -2,13 +2,20 @@
 
 Minimal two-endpoint Spring Boot app. No persistence, auth, or frontend.
 
+> **Windows note:** `make` isn't available out of the box on native Windows.
+> Use WSL, Git Bash with `make` installed, or `choco install make` / `scoop
+> install make` — or just run the plain command shown under each `make`
+> target below (e.g. `docker compose up --build` instead of `make run`).
+
 ## Run
 
 ```bash
-docker compose up --build
+make run
 ```
 
-App serves on `http://localhost:8080`. Stop with `docker compose down`.
+App serves on `http://localhost:8080`. Stop with `make down`.
+
+`make run` wraps `docker compose up --build`; `make down` wraps `docker compose down`.
 
 ## Endpoints
 
@@ -21,11 +28,11 @@ Missing or non-numeric `a`/`b` on `/sum` returns `400 {"error": "..."}`.
 
 ## Test
 
-With local Maven + JDK 17:
-
 ```bash
-mvn test
+make test
 ```
+
+`make test` wraps `mvn test` (requires local Maven + JDK 17).
 
 Without local Maven/JDK, run it in a container from `spring_boot/`:
 

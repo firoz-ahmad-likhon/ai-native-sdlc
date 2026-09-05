@@ -13,6 +13,8 @@ This repo exercises an AI-native SDLC loop: `intent/` → `design/` → `plans/`
 
 When asked to work on a project in this repo, read the intent and spec docs for that slug first — they are the source of truth the code must match. If code needs to diverge from the spec (e.g. renaming a placeholder), update the spec doc first so intent → design → plan → code traceability stays intact, rather than letting them drift.
 
+Every generated project under `<slug>/` must expose a `Makefile` with at least `run` and `test` targets, wrapping whatever the project's actual build/run commands are. `.claude/agents/verifier.md` and other repo tooling invoke `make run` generically rather than per-project commands, so a project without a `Makefile` can't be verified by that tooling. `make` isn't available out of the box on native Windows (needs WSL, Git Bash with `make`, or a `choco`/`scoop` install) — each project's README documents the underlying command each `make` target wraps as a fallback.
+
 ## `spring_boot/` project
 
 A minimal two-endpoint Spring Boot 3.x app (Java 17), built with Maven, packaged as a Docker image. No persistence, auth, or frontend — intentionally out of scope per `intent/spring_boot/intent.md`.
@@ -20,11 +22,11 @@ A minimal two-endpoint Spring Boot 3.x app (Java 17), built with Maven, packaged
 ### Commands
 
 Run from `spring_boot/`:
-- `mvn test` — run the JUnit test suite (`HelloControllerTest`, `SumControllerTest`).
-- `mvn test -Dtest=SumControllerTest` — run a single test class.
-- `mvn package` — build the executable jar.
-- `docker compose up --build` — build and run the whole app (no local Maven/JDK required); serves on `localhost:8080`.
-- `docker compose down` — stop and remove the container.
+- `make run` — build and run the whole app (no local Maven/JDK required); serves on `localhost:8080`. Wraps `docker compose up --build`.
+- `make test` — run the JUnit test suite (`HelloControllerTest`, `SumControllerTest`). Wraps `mvn test`.
+- `make down` — stop and remove the container. Wraps `docker compose down`.
+- `make build` — build the executable jar. Wraps `mvn package`.
+- `mvn test -Dtest=SumControllerTest` — run a single test class directly (no Make target for this).
 
 ### Architecture
 
