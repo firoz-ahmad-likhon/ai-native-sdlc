@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c 'import json,sys; print(json.load(sys.stdin).get(\"tool_input\",{}).get(\"file_path\",\"\"))' | { read -r f; case \"$f\" in */spring_boot/*.java) docker run --rm -v \"$(pwd)/spring_boot:/app\" -v verify-changes-maven-repo:/root/.m2 -w /app maven:3.9-eclipse-temurin-17 mvn -q -B spotless:apply checkstyle:check ;; esac; }",
+            "timeout": 180,
+            "statusMessage": "Formatting and linting spring_boot/ (Spotless + Checkstyle)..."
+          }
+        ]
+      }
+    ]
+  }
+}
